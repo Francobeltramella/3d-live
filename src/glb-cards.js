@@ -67,3 +67,15 @@ function createScene(containerSelector, glbPath) {
 createScene(".astro", "http://localhost:5173/static/astro.glb");
 createScene(".astro2", "http://localhost:5173/static/astro2.glb");
 createScene(".astro3", "http://localhost:5173/static/astro3.glb");
+
+
+
+
+
+// Animación de carga
+
+gsap.timeline()
+  .to("[text-loading]", { opacity: 1,delay:0.3, y: -20, duration: 1, ease: "power2.out" })
+  .to("[text-loading]", { opacity: 0, y: 0, duration: 1, ease: "power2.in" })
+  .to(".courtain", { height: 0, stagger: 0.5, duration: 1, ease: "power2.inOut" })
+  .to(".loading-wrapper", { display: "none", duration: 0 });
