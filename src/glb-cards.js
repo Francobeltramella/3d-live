@@ -54,7 +54,7 @@ function createScene(containerSelector, glbPath) {
         resolve();
       },
       (xhr) => {
-        console.log(`${containerSelector}: ${(xhr.loaded / xhr.total) * 100}% loaded`);
+       // console.log(`${containerSelector}: ${(xhr.loaded / xhr.total) * 100}% loaded`);
       },
       (error) => {
         console.error(`Error loading ${glbPath}`, error);
