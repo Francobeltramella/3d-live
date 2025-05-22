@@ -66,9 +66,9 @@ function createScene(containerSelector, glbPath) {
 }
 
 // Init both scenes
-createScene(".astro", "http://localhost:5173/static/astro.glb");
-createScene(".astro2", "http://localhost:5173/static/astro2.glb");
-createScene(".astro3", "http://localhost:5173/static/astro3.glb");
+createScene(".astro", "https://3dlive.netlify.app/astro.glb");
+createScene(".astro2", "https://3dlive.netlify.app/astro2.glb");
+createScene(".astro3", "https://3dlive.netlify.app/astro3.glb");
 
 
 
