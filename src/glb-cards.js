@@ -80,7 +80,7 @@ function createScene(containerSelector, glbPath) {
 
 // Cargar las escenas y luego disparar animación de salida
 Promise.all([
-  createScene(".astro", "https://3dlive.netlify.app/astro.glb"),
+  createScene(".astro", "https://3dlive.netlify.app/astro-com-1.glb"),
   createScene(".astro2", "https://3dlive.netlify.app/astro2.glb"),
   createScene(".astro3", "https://3dlive.netlify.app/astro3.glb")
 ]).then(() => {
