@@ -82,7 +82,7 @@ function createScene(containerSelector, glbPath) {
 Promise.all([
   createScene(".astro", "https://3dlive.netlify.app/astro-com-1.glb"),
   createScene(".astro2", "https://3dlive.netlify.app/astro-com-2.glb"),
-  createScene(".astro3", "https://3dlive.netlify.app/astro3.glb")
+  createScene(".astro3", "https://3dlive.netlify.app/astro-com-3.glb")
 ]).then(() => {
   gsap.timeline()
     .to("[text-loading]", { opacity: 1, delay: 0.3, y: -20, duration: 1, ease: "power2.out" })
