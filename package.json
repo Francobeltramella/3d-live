@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "esbuild src/webgl-video.js --bundle --outfile=dist/webgl-video.js --format=esm && esbuild src/glb-cards.js --bundle --outfile=dist/glb-cards.js --format=esm && esbuild src/slider-loop.js --bundle --outfile=dist/slider-loop.js --format=esm &&  esbuild src/shaderScroll.js --bundle --outfile=dist/shaderScroll.js --format=esm && esbuild src/shaders.js --bundle --outfile=dist/shaders.js --format=esm && esbuild src/portfolio.js --bundle --outfile=dist/portfolio.js --format=esm && mkdir -p dist/assets && cp public/portfolio.glb dist/ && cp public/Orbitron.json dist/ && cp public/glb/astro-com-1.glb dist/ && cp public/glb/astro-com-2.glb dist/ && cp public/glb/astro-com-3.glb dist/",
+    "build": "esbuild src/webgl-video.js --bundle --outfile=dist/webgl-video.js --format=esm && esbuild src/glb-cards.js --bundle --outfile=dist/glb-cards.js --format=esm && esbuild src/slider-loop.js --bundle --outfile=dist/slider-loop.js --format=esm &&  esbuild src/shaderScroll.js --bundle --outfile=dist/shaderScroll.js --format=esm && esbuild src/shaders.js --bundle --outfile=dist/shaders.js --format=esm && esbuild src/portfolio.js --bundle --outfile=dist/portfolio.js --format=esm && mkdir -p dist/assets && cp public/portfolio.glb dist/ && cp public/Orbitron.json dist/ && cp public/glb/astro-com-1.glb dist/ && cp public/glb/astro-com-2.glb dist/ && cp public/glb/astro-com-3.glb dist/  && cp public/videos/* dist/videos/",
     "preview": "vite preview"
   },
   "devDependencies": {
