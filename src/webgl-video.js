@@ -355,9 +355,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // Configurar botones de cambio de shader
     const bulgeBtn = document.querySelector('[data-shader="bulge"]');
     const rippleBtn = document.querySelector('[data-shader="glitch"]');
+
+
+    const shaderButtons = [bulgeBtn, rippleBtn];
+
+    function setActiveButton(button) {
+      shaderButtons.forEach(btn => btn?.classList.remove("active")); 
+      button.classList.add("active");
+    }
   
     if (bulgeBtn) {
       bulgeBtn.addEventListener("click", () => {
+        setActiveButton(bulgeBtn);
         goToSlide((current + 1) % slides.length, "next");
         setTimeout(() => {
           clearShaders();
@@ -368,6 +377,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     if (rippleBtn) {
       rippleBtn.addEventListener("click", () => {
+        setActiveButton(rippleBtn);
         goToSlide((current + 1) % slides.length, "next");
   
         setTimeout(() => {
@@ -397,9 +407,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   }
   
-  // ========================================
-  // VIDEO BULGE EFFECT
-  // ========================================
   
   class VideoBulgeEffect {
     constructor() {
