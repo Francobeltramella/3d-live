@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
       {
         // Fase 1: colapsa hacia arriba (queda invisible)
         clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-        duration: 0.8,
+        duration: 0.5,
         ease: "power2.inOut",
         stagger: 0.1,
       },
@@ -366,6 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     if (bulgeBtn) {
       bulgeBtn.addEventListener("click", () => {
+        console.log("click bulge")
         setActiveButton(bulgeBtn);
         goToSlide((current + 1) % slides.length, "next");
         setTimeout(() => {
@@ -388,7 +389,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   
     // Iniciar con el efecto por defecto
-    activeShader = new VideoInkRevealEffect();
+    activeShader = new VideoBulgeEffect();
   }
   
   function clearShaders() {
