@@ -14,8 +14,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.set(4, -2, 0);
-
+camera.position.set(4, 0, 0);
 // Renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(container.clientWidth, container.clientHeight);
@@ -49,8 +48,10 @@ scene.add(hemiLight);
 
 // Controls
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
 
+controls.enableZoom = false;      // Desactiva el zoom con el scroll
+controls.enableRotate = false;    // Desactiva la rotación con el mouse
+controls.enablePan = false;
 
 const light4 = new THREE.DirectionalLight(0xffffff, 3);
 light4.position.set(5, 5, 5);
@@ -75,7 +76,7 @@ loader.load(
   "https://3dlive.netlify.app/tripo3.glb",
   (gltf) => {
     model = gltf.scene;
-
+    model.position.set(-2, 0.7, 1.7); 
     // Mejora de materiales y sombras
     model.traverse((child) => {
         if (child.isMesh) {
