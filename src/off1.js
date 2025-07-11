@@ -83,7 +83,7 @@ loader.load(
             child.material.vertexColors = false;
             child.material = new THREE.MeshPhysicalMaterial({
                 color: new THREE.Color('#ffffff'),
-                transmission: 1,
+                transmission:0.7,
                 thickness: 1.0,
                 roughness: 0.25,
                 attenuationColor: new THREE.Color(0xaee7ff),
