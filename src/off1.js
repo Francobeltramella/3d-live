@@ -72,7 +72,7 @@ const normalMap    = textureLoader.load('https://cdn.prod.website-files.com/672b
 const roughnessMap = textureLoader.load('https://cdn.prod.website-files.com/672b98669f7d5338576ee43f/687082ab0af5fb0edfcc5c3a_Snow006_1K-JPG_Displacement.jpg');
 
 loader.load(
-  "http://3dlive.netlify.app/tripo3.glb",
+  "https://3dlive.netlify.app/tripo3.glb",
   (gltf) => {
     model = gltf.scene;
 
