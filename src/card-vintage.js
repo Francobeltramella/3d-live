@@ -1,6 +1,15 @@
 import * as THREE from 'three';
 import gsap from 'gsap';
 
+
+// Animación de carga
+
+gsap.timeline()
+  .to("[text-loading]", { opacity: 1,delay:0.3, y: -20, duration: 1, ease: "power2.out" })
+  .to("[text-loading]", { opacity: 0, y: 0, duration: 1, ease: "power2.in" })
+  .to(".courtain", { height: 0, stagger: 0.5, duration: 1, ease: "power2.inOut" })
+  .to(".loading-wrapper", { display: "none", duration: 0 });
+
 const CONFIG = {
   cardSize: { width: 2.7, height: 3.3 },
   animationSpeed: 0.02,
