@@ -342,7 +342,7 @@ class VideoBulgeEffect {
         `
     );
     gl.compileShader(fragmentShader);
-
+    console.log(fragmentShader);
     const program = gl.createProgram();
     gl.attachShader(program, vertexShader);
     gl.attachShader(program, fragmentShader);
@@ -591,7 +591,7 @@ class VideoInkRevealEffect {
             
                 float angle = atan(delta.y, delta.x);
                 float radialNoise = noise(vec2(angle * 4.0, t * 0.6)) * 0.03;
-                float angleStretch = sin(angle * 2.5 + t * 0.5) * 0.02;
+                float angleStretch = sin(angle * 2.5 + t * 0.5) * 0.0;
                 float velocityStretch = dot(normalize(delta), normalize(velocity)) * length(velocity) * 0.3;
             
                 float radius = baseRadius + radialNoise + angleStretch + velocityStretch;
