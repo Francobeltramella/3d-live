@@ -105,7 +105,7 @@ float random(vec2 st) {
 
 // --- ruido fino tipo "grain" ---
 float grain(vec2 uv, float time) {
-  return random(uv + time * 0.1) * 0.3;
+  return random(uv + time * 0.1) * 0.2;
 }
 
 // --- polvo / neblina ---
