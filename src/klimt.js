@@ -348,10 +348,10 @@ window.addEventListener('mousemove', (event) => {
 let scrollProgress = 0;
 
 window.addEventListener('scroll', () => {
-  const scrollMax = document.body.scrollHeight - window.innerHeight;
-  scrollProgress = window.scrollY / scrollMax;
-});
-
+    const scrollMax = document.body.scrollHeight - window.innerHeight;
+    scrollProgress = window.scrollY / scrollMax;
+    targetCameraZ = 20 - scrollProgress * 20;
+  });
 
 
 // Animación
