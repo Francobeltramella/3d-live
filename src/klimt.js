@@ -353,7 +353,6 @@ window.addEventListener('scroll', () => {
     targetCameraZ = 20 - scrollProgress * 20;
   });
 
-
 // Animación
 const clock = new THREE.Clock();
 function animate(){
