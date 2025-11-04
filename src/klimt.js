@@ -346,12 +346,13 @@ window.addEventListener('mousemove', (event) => {
   uniforms.uMouseWorld.value.copy(mouseWorld);
 });
 let scrollProgress = 0;
-let targetCameraZ = camera.position.z;
+
 window.addEventListener('scroll', () => {
-    const scrollMax = document.body.scrollHeight - window.innerHeight;
-    scrollProgress = window.scrollY / scrollMax;
-    targetCameraZ = 20 - scrollProgress * 20;
-  });
+  const scrollMax = document.body.scrollHeight - window.innerHeight;
+  scrollProgress = window.scrollY / scrollMax;
+});
+
+
 
 // Animación
 const clock = new THREE.Clock();
@@ -360,7 +361,7 @@ function animate(){
 
 
     // Scroll suave
-    camera.position.z += (targetCameraZ - camera.position.z) * 0.05;
+    camera.position.z = 20 - scrollProgress * 20;
     //camera.rotation.y = scrollProgress * 0.2;
   
     if (concreteRing) {
