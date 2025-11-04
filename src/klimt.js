@@ -346,7 +346,7 @@ window.addEventListener('mousemove', (event) => {
   uniforms.uMouseWorld.value.copy(mouseWorld);
 });
 let scrollProgress = 0;
-
+let targetCameraZ = camera.position.z;
 window.addEventListener('scroll', () => {
     const scrollMax = document.body.scrollHeight - window.innerHeight;
     scrollProgress = window.scrollY / scrollMax;
