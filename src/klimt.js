@@ -312,7 +312,7 @@ const bladeMat = new THREE.ShaderMaterial({
 });
 
 // InstancedMesh para el césped
-const COUNT = 300000;
+const COUNT = 400000;
 const grass = new THREE.InstancedMesh(bladeGeo, bladeMat, COUNT);
 const dummy = new THREE.Object3D();
 
