@@ -361,7 +361,7 @@ function animate(){
 
 
     // Scroll suave
-    camera.position.z = 20 - scrollProgress * 20;
+    camera.position.z += (targetCameraZ - camera.position.z) * 0.05;
     //camera.rotation.y = scrollProgress * 0.2;
   
     if (concreteRing) {
