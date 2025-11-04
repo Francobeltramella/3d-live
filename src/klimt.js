@@ -366,8 +366,8 @@ function animate(){
   
     if (concreteRing) {
       concreteRing.rotation.y = scrollProgress * Math.PI * 0.5;
-        const t = clock.getElapsedTime();
-        concreteRing.position.y = Math.sin(t * 0.7) * 0.1 + 0.1; // velocidad y amplitud
+       //   const t = clock.getElapsedTime();
+    //   concreteRing.position.y = Math.sin(t * 1.0) * 0.1 + 0.1; // velocidad y amplitud
     }
   
     const camY = camera.position.y;
