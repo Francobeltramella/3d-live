@@ -21,7 +21,7 @@ document.querySelector('.element-3d').appendChild(renderer.domElement);// ------
 const pmremGenerator = new PMREMGenerator(renderer);
 pmremGenerator.compileEquirectangularShader();
 
-new EXRLoader().load('http://localhost:5173/static/sky.exr', (texture) => {
+new EXRLoader().load('https://3dlive.netlify.app/videos/sky.exr', (texture) => {
   const envMap = pmremGenerator.fromEquirectangular(texture).texture;
   scene.environment = envMap;
   scene.background = envMap;
