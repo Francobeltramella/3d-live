@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { DRACOLoader } from 'https://cdn.jsdelivr.net/npm/three@0.154.0/examples/jsm/loaders/DRACOLoader.js';
 
 import { PMREMGenerator } from 'three';
 
@@ -13,6 +14,9 @@ const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHei
 camera.position.set(0, 8, 20);
 camera.lookAt(0,5,0);
 
+// Crea el DRACO loader y le decís dónde están los decoders
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/'); // CDN oficial
 
 
 const renderer = new THREE.WebGLRenderer({ antialias:true });
@@ -30,11 +34,12 @@ new EXRLoader().load('https://3dlive.netlify.app/videos/sky.exr', (texture) => {
 });
 
 const loader = new GLTFLoader();
+loader.setDRACOLoader(dracoLoader);
+
 let concreteRing = null;
 
 loader.load('https://3dlive.netlify.app/k12.glb', (gltf) => {
   const model = gltf.scene;
-
   // Centrarlo al terreno
   model.position.set(-2, 0, 0); // puedes ajustar Y si se entierra o flota
 
