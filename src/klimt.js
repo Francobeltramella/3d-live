@@ -20,7 +20,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.querySelector('.element-3d').appendChild(renderer.domElement);// ---------- HDRI ----------
 const pmremGenerator = new PMREMGenerator(renderer);
 pmremGenerator.compileEquirectangularShader();
-
+console.log(renderer.info);
 new EXRLoader().load('https://3dlive.netlify.app/videos/sky.exr', (texture) => {
   const envMap = pmremGenerator.fromEquirectangular(texture).texture;
   scene.environment = envMap;
