@@ -4,6 +4,7 @@ import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader.js';
 
 import { PMREMGenerator } from 'three';
 
@@ -25,12 +26,19 @@ document.querySelector('.element-3d').appendChild(renderer.domElement);// ------
 const pmremGenerator = new PMREMGenerator(renderer);
 pmremGenerator.compileEquirectangularShader();
 console.log(renderer.info);
-new EXRLoader().load('https://3dlive.netlify.app/videos/sky.exr', (texture) => {
-  const envMap = pmremGenerator.fromEquirectangular(texture).texture;
-  scene.environment = envMap;
-  scene.background = envMap;
-  texture.dispose();
-  pmremGenerator.dispose();
+// new EXRLoader().load('https://3dlive.netlify.app/videos/sky.exr', (texture) => {
+//   const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+//   scene.environment = envMap;
+//   scene.background = envMap;
+//   texture.dispose();
+//   pmremGenerator.dispose();
+// });
+
+const loaderhdr = new HDRLoader();
+loaderhdr.load('https://3dlive.netlify.app/videos/sky.hdr', (texture) => {
+  texture.mapping = THREE.EquirectangularReflectionMapping;
+  scene.environment = texture;
+  scene.background = texture;    // opcional
 });
 
 const loader = new GLTFLoader();
