@@ -6,7 +6,6 @@ import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUti
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 
-
 import { PMREMGenerator } from 'three';
 
 
@@ -27,19 +26,13 @@ document.querySelector('.element-3d').appendChild(renderer.domElement);// ------
 const pmremGenerator = new PMREMGenerator(renderer);
 pmremGenerator.compileEquirectangularShader();
 console.log(renderer.info);
-// new EXRLoader().load('https://3dlive.netlify.app/videos/sky.exr', (texture) => {
-//   const envMap = pmremGenerator.fromEquirectangular(texture).texture;
-//   scene.environment = envMap;
-//   scene.background = envMap;
-//   texture.dispose();
-//   pmremGenerator.dispose();
-// });
-const loaderhdr = new RGBELoader();
-loaderhdr.load('https://3dlive.netlify.app/videos/sky.hdr', (texture) => {
-  texture.mapping = THREE.EquirectangularReflectionMapping;
-  scene.environment = texture;
+new EXRLoader().load('https://3dlive.netlify.app/videos/sky.exr', (texture) => {
+  const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+  scene.environment = envMap;
+  scene.background = envMap;
+  texture.dispose();
+  pmremGenerator.dispose();
 });
-
 
 const loader = new GLTFLoader();
 loader.setDRACOLoader(dracoLoader);
@@ -325,7 +318,7 @@ const bladeMat = new THREE.ShaderMaterial({
 });
 
 // InstancedMesh para el césped
-const COUNT = 100000;
+const COUNT = 200000;
 const grass = new THREE.InstancedMesh(bladeGeo, bladeMat, COUNT);
 const dummy = new THREE.Object3D();
 
