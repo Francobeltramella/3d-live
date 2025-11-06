@@ -22,28 +22,58 @@ dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5
 
 const renderer = new THREE.WebGLRenderer({ antialias:true });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.7; // por defecto es 1.0
 document.querySelector('.element-3d').appendChild(renderer.domElement);// ---------- HDRI ----------
 const pmremGenerator = new PMREMGenerator(renderer);
 pmremGenerator.compileEquirectangularShader();
 console.log(renderer.info);
-new EXRLoader().load('https://3dlive.netlify.app/videos/sky.exr', (texture) => {
-  const envMap = pmremGenerator.fromEquirectangular(texture).texture;
-  scene.environment = envMap;
-  scene.background = envMap;
-  texture.dispose();
+// new EXRLoader().load('https://3dlive.netlify.app/videos/sky.exr', (texture) => {
+//   const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+//   scene.environment = envMap;
+//   scene.background = envMap;
+//   texture.dispose();
+//   pmremGenerator.dispose();
+// });
+
+
+const rgbeLoader = new RGBELoader();
+rgbeLoader.load('https://3dlive.netlify.app/videos/img4.hdr', (hdrTexture) => {
+  const envMap = pmremGenerator.fromEquirectangular(hdrTexture).texture;
+  hdrTexture.dispose();
   pmremGenerator.dispose();
+
+  scene.background = envMap;
+  scene.environment = null; // desactiva la luz HDRI
 });
 
 const loader = new GLTFLoader();
 loader.setDRACOLoader(dracoLoader);
 
-let concreteRing = null;
 
-loader.load('https://3dlive.netlify.app/k12.glb', (gltf) => {
+const ringLight = new THREE.PointLight(0xffddaa, 5, 15); // color cálido, intensidad 2, alcance 15 unidades
+ringLight.position.set(0, 6, 4); // posicioná el foco sobre el aro
+ringLight.castShadow = true;
+scene.add(ringLight);
+
+let concreteRing = null;
+let ringY = 0;
+
+loader.load('https://3dlive.netlify.app/k13.glb', (gltf) => {
   const model = gltf.scene;
   // Centrarlo al terreno
   model.position.set(-2, 0, 0); // puedes ajustar Y si se entierra o flota
+  model.traverse((child) => {
+    if (child.name) {
+      console.log('Objeto:', child.name);
+    }
+  });
 
+  model.traverse((child) => {
+    if (child.isMesh && child.material && 'envMapIntensity' in child.material) {
+      child.material.envMapIntensity = 0.3;
+    }
+  });
   // Escalar si es muy grande o chico
   model.scale.set(6, 6, 6); // ajusta según sea necesario\
 
@@ -55,6 +85,10 @@ loader.load('https://3dlive.netlify.app/k12.glb', (gltf) => {
 
   concreteRing = model.getObjectByName('concrete_ring');
   if (concreteRing) {
+    concreteRing.castShadow = true; // ✅ Mover esto acá
+
+        ringY = concreteRing.position.y; // 💾 guardamos la posición original
+    
     concreteRing.scale.set(4, 4, 4);
     console.log('✔️ concrete_ring encontrado y listo');
    // concreteRing.position.set(0, 0, 0);
@@ -71,8 +105,8 @@ loader.load('https://3dlive.netlify.app/k12.glb', (gltf) => {
 
 
 // Terreno
-const terrainSize = 70;
-const terrainRes = 500;
+const terrainSize = 60;
+const terrainRes = 1000;
 const terrainGeo = new THREE.PlaneGeometry(terrainSize, terrainSize, terrainRes, terrainRes);
 terrainGeo.rotateX(-Math.PI/2);
 for (let i = 0; i < terrainGeo.attributes.position.count; i++){
@@ -82,36 +116,75 @@ for (let i = 0; i < terrainGeo.attributes.position.count; i++){
   terrainGeo.attributes.position.setY(i, y);
 }
 terrainGeo.computeVertexNormals();
-const terrainMat = new THREE.MeshStandardMaterial({ color:0x556644, flatShading:true });
-const terrain = new THREE.Mesh(terrainGeo, terrainMat);
+const terrainMat = new THREE.MeshStandardMaterial({
+    color: new THREE.Color(0.05, 0.2, 0.05), // mucho más oscuro
+    roughness: 1,
+    metalness: 0,
+    envMapIntensity: 0, // menos influencia del HDRI
+  });
+  const terrain = new THREE.Mesh(terrainGeo, terrainMat);
+  
+  terrain.material.envMapIntensity = 0.1;
+
 scene.add(terrain);
 
 // Luz
-const dirLight = new THREE.DirectionalLight(0xffffff, 0.1);
-
+const dirLight = new THREE.DirectionalLight(0xfff2e0, 1); // luz cálida tenue
+dirLight.position.set(5, 10, 8); // que venga de un ángulo
 scene.add(dirLight);
-scene.add(new THREE.AmbientLight(0x777777));
+
+
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+dirLight.castShadow = true;
+dirLight.shadow.mapSize.set(1024, 1024);
+dirLight.shadow.bias = -0.001;
+
+
+const ambientLight = new THREE.AmbientLight(0xbfd8c0, 1); // verde azulado claro, combina con el pasto
+scene.add(ambientLight);
+
 
 const flowerCount = 10000;
+
+
 
 const stemGeo = new THREE.CylinderGeometry(0.01, 0.01, 0.5, 8);
 stemGeo.translate(0, 0.25, 0);
 
 // Flor
 const flowerGeo = new THREE.PlaneGeometry(0.2, 0.2);
-flowerGeo.scale(2.0, 2.0, 1); // agrandar la flor
+flowerGeo.scale(3.0, 3.0, 1); // agrandar la flor
 flowerGeo.translate(0, 0.55, 0);
+
+
+
 
 // Fusionar
 const mergedGeo = BufferGeometryUtils.mergeGeometries([stemGeo, flowerGeo]);
 
 const flowerTexture = new THREE.TextureLoader().load('https://cdn.prod.website-files.com/68f7d96bca9eac99488aefec/69096dbb5f994d7606274120_f3.png');
+const flowerTexture2 = new THREE.TextureLoader().load('https://cdn.prod.website-files.com/68adf7b95a51e99e9fe5a823/690bf9a554d1fb4c3feb7a22_flower2.webp');
+
+
 const flowerMat = new THREE.MeshBasicMaterial({
   map: flowerTexture,
   transparent: true,
   alphaTest: 0.5,
   side: THREE.DoubleSide
 });
+
+const flowerMat2 = new THREE.MeshBasicMaterial({
+    map: flowerTexture2,
+    transparent: true,
+    alphaTest: 0.5,
+    side: THREE.DoubleSide
+  });
+
+  const newFlowerCount = 200;
+const flowers2 = new THREE.InstancedMesh(mergedGeo, flowerMat2, newFlowerCount);
+const dummy3 = new THREE.Object3D();
 
 // Ahora creás el InstancedMesh
 const flowers = new THREE.InstancedMesh(mergedGeo, flowerMat, flowerCount);
@@ -135,6 +208,25 @@ for (let i = 0; i < flowerCount; i++) {
   
     flowers.setMatrixAt(i, dummy2.matrix);
   }
+
+  for (let i = 0; i < newFlowerCount; i++) {
+    const x = (Math.random() - 0.5) * terrainSize;
+    const z = (Math.random() - 0.5) * terrainSize;
+  
+    const y = Math.sin(x * 0.3) * Math.cos(z * 0.3) * 1.5;
+  
+    dummy3.position.set(x, y + 0.2, z);
+    dummy3.rotation.y = Math.random() * Math.PI * 2;
+    const s = 0.2 + Math.random() * 0.3; // tamaño distinto
+    dummy3.scale.set(s, s, s);
+    dummy3.updateMatrix();
+  
+    flowers2.setMatrixAt(i, dummy3.matrix);
+  }
+  
+
+  scene.add(flowers2);
+
 scene.add(flowers);
 
 // Uniforms para césped shader
@@ -144,7 +236,7 @@ const uniforms = {
     uHalfWidth: { value: 0.05 },
     uBaseColor: { value: new THREE.Color(0.1, 0.4, 0.1) },
     uTipColor: { value: new THREE.Color(0.4, 0.8, 0.4) },
-    uFogColor: { value: new THREE.Color(0.8, 0.9, 0.9) },
+    uFogColor: { value: new THREE.Color(0.5, 0.6, 0.6) },
     uMouseWorld: { value: new THREE.Vector3(0, 0, 0) } // 👈 importante
   };
 
@@ -218,8 +310,13 @@ const bladeMat = new THREE.ShaderMaterial({
     vec3 gentleOffset = gentleDir * gentleSway * t;
   
     vec3 worldPos = (instanceMatrix * vec4(pos, 1.0)).xyz;
-    float wave = cnoise(worldPos.xz * 0.3 + vec2(uTime * uSpeed * 0.2, 0.0));
-    float strongWind = wave * 0.65;
+    float wave = cnoise(worldPos.xz * 0.2 + vec2(uTime * uSpeed * 0.05, 0.0));
+
+    // 🔸 Atenuar con distancia
+    float distToCamera = distance(worldPos, cameraPosition);
+    float attenuation = 1.0 - smoothstep(20.0, 60.0, distToCamera); // cambia estos valores si querés
+    
+    float strongWind = wave * 0.2;
     vec3 strongDir = normalize(vec3(0.0, 0.0, 1.0));
     vec3 strongOffset = strongDir * strongWind * pow(pos.y, 2.0);
   
@@ -369,7 +466,10 @@ function animate(){
     // Scroll suave
     camera.position.z = 20 - scrollProgress * 20;
     //camera.rotation.y = scrollProgress * 0.2;
-  
+    if (concreteRing) {
+        const t = clock.getElapsedTime();
+        concreteRing.position.y = ringY + Math.sin(t * 0.5) * 0.05; // flota suavemente
+      }
     if (concreteRing) {
       concreteRing.rotation.y = scrollProgress * Math.PI * 0.5;
        //   const t = clock.getElapsedTime();
