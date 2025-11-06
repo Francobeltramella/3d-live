@@ -129,8 +129,8 @@ const terrainMat = new THREE.MeshStandardMaterial({
 scene.add(terrain);
 
 // Luz
-const dirLight = new THREE.DirectionalLight(0xfff2e0, 1); // luz cálida tenue
-dirLight.position.set(5, 10, 8); // que venga de un ángulo
+const dirLight = new THREE.DirectionalLight(0xfff2e0, 2); // luz cálida tenue
+dirLight.position.set(20, 20, 28); // que venga de un ángulo
 scene.add(dirLight);
 
 
