@@ -182,7 +182,7 @@ const flowerMat2 = new THREE.MeshBasicMaterial({
     side: THREE.DoubleSide
   });
 
-  const newFlowerCount = 200;
+  const newFlowerCount = 50;
 const flowers2 = new THREE.InstancedMesh(mergedGeo, flowerMat2, newFlowerCount);
 const dummy3 = new THREE.Object3D();
 
