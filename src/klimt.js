@@ -142,7 +142,7 @@ dirLight.shadow.mapSize.set(1024, 1024);
 dirLight.shadow.bias = -0.001;
 
 
-const ambientLight = new THREE.AmbientLight(0xbfd8c0, 1.5); // verde azulado claro, combina con el pasto
+const ambientLight = new THREE.AmbientLight(0xffffff, 1.5); // luz neutra y tenue
 scene.add(ambientLight);
 
 
