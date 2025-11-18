@@ -8,3 +8,7 @@
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
   Access-Control-Allow-Headers: *
+
+
+  /videos/audio-bg.mp3
+  Access-Control-Allow-Origin: *
