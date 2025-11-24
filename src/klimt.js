@@ -223,6 +223,23 @@ function animate() {
   if (concreteRing)
     concreteRing.position.y = Math.sin(t) * 0.02;
 
+  if (light) {
+    // Movimiento objetivo basado en el mouse
+    const targetLX = 4 + mouseX * 1.2;   // sensibilidad horizontal
+    const targetLY = 10 + mouseY * 0.8;  // sensibilidad vertical
+    const targetLZ = 14;                 // tu valor original, no lo tocamos
+
+    // Movemos la luz suavemente
+    light.position.x += (targetLX - light.position.x) * 0.06;
+    light.position.y += (targetLY - light.position.y) * 0.06;
+    light.position.z += (targetLZ - light.position.z) * 0.06;
+
+    // Apuntamos la luz al centro
+    light.target.position.set(0, 0, 0);
+    light.target.updateMatrixWorld();
+  }
+
+
   if (camera) {
     // Parallax mouse
     const parallaxX = mouseX * 0.4;
