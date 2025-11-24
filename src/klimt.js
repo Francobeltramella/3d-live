@@ -65,10 +65,13 @@ document.addEventListener("mousemove", (e) => {
 
   raycaster.setFromCamera(mouse, camera);
 
-  // punto en el espacio delante de la cámara
-  const pos = raycaster.ray.at(1.2, new THREE.Vector3());
+  const hits = raycaster.intersectObject(mousePlane);
 
-  mouseLight.position.lerp(pos, 0.2);
+  if (hits.length > 0) {
+    const point = hits[0].point;
+
+    mouseLight.position.lerp(point, 0.25); // suave
+  }
 });
 
 
