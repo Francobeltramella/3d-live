@@ -23,7 +23,7 @@ container.appendChild(renderer.domElement);
 scene.add(new THREE.AmbientLight(0xffffff, 0.8));
 
 // LUZ
-const light = new THREE.DirectionalLight(0xffffff, 3);
+const light = new THREE.DirectionalLight(0xffffff, 2);
 light.position.set(4, 10, 14);
 light.castShadow = true;
 
