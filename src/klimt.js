@@ -51,6 +51,23 @@ loader.load(
         obj.receiveShadow = true;
       }
     });
+    gltf.scene.traverse(obj => {
+
+      if (obj.name === "Shape_2001") shape2 = obj;
+      if (obj.name === "concrete_ring001") concreteRing = obj;
+
+      if (obj.isMesh) {
+        obj.castShadow = true;
+        obj.receiveShadow = true;
+      }
+
+      if (
+        obj.name === "Shape_2001" ||
+        obj.name === "Cube002_Material001_0"
+      ) {
+        obj.castShadow = false;
+      }
+    });
 
     // Cámara del GLTF
     camera = gltf.cameras.find(c => c.name === "c") || gltf.cameras[0];
