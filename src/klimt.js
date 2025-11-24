@@ -169,13 +169,13 @@ function startThreeIntro() {
     });
   }
 
-  if (shape2) {
-    gsap.from(shape2.rotation, {
-      y: shape2.rotation.y - 1.4,
-      duration: 2.6,
-      ease: "expo.out"
-    });
-  }
+  // if (shape2) {
+  //   gsap.from(shape2.rotation, {
+  //     y: shape2.rotation.y - 1.4,
+  //     duration: 2.6,
+  //     ease: "expo.out"
+  //   });
+  // }
 
   // NAV
   gsap.from("[nav]", {
