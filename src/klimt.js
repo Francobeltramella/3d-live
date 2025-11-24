@@ -48,6 +48,44 @@ scene.add(light);
 
 
 
+// 💡 LUZ DEL CURSOR
+const pointerLight = new THREE.PointLight(0xffffff, 1.5, 8);
+pointerLight.position.set(0, 0, 2);
+pointerLight.castShadow = false; // o true si querés sombras dinámicas
+scene.add(pointerLight);
+
+// pequeña esfera para debug (opcional)
+const debugSphere = new THREE.Mesh(
+  new THREE.SphereGeometry(0.03, 16, 16),
+  new THREE.MeshBasicMaterial({ color: 0xffffff })
+);
+pointerLight.add(debugSphere);
+
+
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+
+document.addEventListener("mousemove", (e) => {
+  // Normalizar coordenadas
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
+
+  // Convertir a rayo
+  raycaster.setFromCamera(mouse, camera);
+
+  // Projectar 1 unidad frente a la cámara
+  const targetPos = raycaster.ray.at(1, new THREE.Vector3());
+
+  pointerLight.position.copy(targetPos);
+});
+
+if (window.innerWidth < 768) {
+  pointerLight.intensity = 0;
+}
+
+
+
 
 /*********************************************
  * CARGAR GLB
