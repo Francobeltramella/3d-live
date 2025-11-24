@@ -48,31 +48,6 @@ scene.add(light);
 
 
 
-const mouseLight = new THREE.PointLight(0xffffff, 1.4, 1);
-mouseLight.castShadow = false;   // si querés sombras -> true
-scene.add(mouseLight);
-
-
-
-
-
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-
-document.addEventListener("mousemove", (e) => {
-  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-
-  raycaster.setFromCamera(mouse, camera);
-
-  const hits = raycaster.intersectObject(mousePlane);
-
-  if (hits.length > 0) {
-    const point = hits[0].point;
-
-    mouseLight.position.lerp(point, 0.25); // suave
-  }
-});
 
 
 
@@ -314,17 +289,6 @@ window.addEventListener("resize", () => {
 
 
 
-if (sessionStorage.getItem("threeLoaded")) {
-  // Ya cargó → saltar el loader
-  document.querySelector(".loading-wrapper").style.display = "none";
-  document.body.style.overflow = "auto";
 
-  // Y activar directamente la intro del 3D
-  window.dispatchEvent(new Event("three-start-intro"));
-} else {
-  // Primera vez → guardar estado
-  sessionStorage.setItem("threeLoaded", "true");
 
-  // Acá corre tu loader normal
-  startLoaderAnimation();
-}
+
