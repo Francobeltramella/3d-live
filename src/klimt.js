@@ -37,7 +37,7 @@ scene.add(light);
 const loader = new GLTFLoader();
 
 loader.load(
-  "https://3dlive.netlify.app/videos/knew2.gltf",
+  "https://3dlive.netlify.app/videos/knew2.glb",
   (gltf) => {
     scene.add(gltf.scene);
 
