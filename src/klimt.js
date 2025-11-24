@@ -221,19 +221,42 @@ function animate() {
 
   renderer.render(scene, camera);
 }
+let lastBreakpoint = null; // guarda en qué breakpoint estoy
+
+function getBreakpoint() {
+  const w = window.innerWidth;
+
+  if (w < 768) return "mobile";
+  return "desktop";
+}
 
 function adjustCameraForMobile() {
   if (!camera) return;
 
-  if (window.innerWidth < 768) {
-    camera.position.set(-2.3, 2.3, 2.8);  // ⬅️ un poco más lejos
+  const current = getBreakpoint();
+
+  // ❗ Solo actualiza si CAMBIÓ el breakpoint
+  if (current === lastBreakpoint) {
+    return; // no hagas nada
+  }
+
+  // Guardar nuevo breakpoint
+  lastBreakpoint = current;
+
+  // Aplicar posiciones solo 1 VEZ
+  if (current === "mobile") {
+    camera.position.set(-2.3, 2.3, 2.8);
   } else {
-    camera.position.set(-2, 2, 2);        // desktop original
+    camera.position.set(-2, 2, 2);
   }
 
   camera.updateProjectionMatrix();
 }
 
+// Ejecutar una vez al cargar
+adjustCameraForMobile();
+
+// Ejecutar solo cuando cambia el tamaño real del viewport
 window.addEventListener('resize', adjustCameraForMobile);
 
 
