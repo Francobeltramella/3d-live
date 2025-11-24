@@ -48,7 +48,7 @@ scene.add(light);
 
 
 
-const mouseLight = new THREE.PointLight(0xffffff, 1.4, 3);
+const mouseLight = new THREE.PointLight(0xffffff, 1.4, 1);
 mouseLight.castShadow = false;   // si querés sombras -> true
 scene.add(mouseLight);
 
