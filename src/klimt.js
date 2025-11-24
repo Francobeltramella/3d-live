@@ -221,29 +221,31 @@ function animate() {
 
   renderer.render(scene, camera);
 }
-let lastBreakpoint = null; // guarda en qué breakpoint estoy
+let lastBreakpoint = null;
+let lastWidth = window.innerWidth;
 
+// detecta el breakpoint actual
 function getBreakpoint() {
-  const w = window.innerWidth;
-
-  if (w < 768) return "mobile";
-  return "desktop";
+  return window.innerWidth < 768 ? "mobile" : "desktop";
 }
 
 function adjustCameraForMobile() {
   if (!camera) return;
 
-  const current = getBreakpoint();
-
-  // ❗ Solo actualiza si CAMBIÓ el breakpoint
-  if (current === lastBreakpoint) {
-    return; // no hagas nada
+  // ⛔️ ignorar resizes donde SOLO cambia el alto
+  if (window.innerWidth === lastWidth) {
+    return;  
   }
 
-  // Guardar nuevo breakpoint
+  lastWidth = window.innerWidth;
+
+  const current = getBreakpoint();
+
+  // solo actualizar si cambió el breakpoint
+  if (current === lastBreakpoint) return;
+
   lastBreakpoint = current;
 
-  // Aplicar posiciones solo 1 VEZ
   if (current === "mobile") {
     camera.position.set(-2.3, 2.3, 2.8);
   } else {
@@ -253,10 +255,10 @@ function adjustCameraForMobile() {
   camera.updateProjectionMatrix();
 }
 
-// Ejecutar una vez al cargar
+// ejecutar una vez al cargar
 adjustCameraForMobile();
 
-// Ejecutar solo cuando cambia el tamaño real del viewport
+// ejecutar cuando cambia width real (no el alto)
 window.addEventListener('resize', adjustCameraForMobile);
 
 
