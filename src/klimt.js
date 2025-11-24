@@ -22,13 +22,39 @@ container.appendChild(renderer.domElement);
 // Luces
 scene.add(new THREE.AmbientLight(0xffffff, 0.8));
 
+// LUZ
 const light = new THREE.DirectionalLight(0xffffff, 3);
 light.position.set(4, 10, 14);
 light.castShadow = true;
-light.shadow.mapSize.set(2048, 2048);
-light.shadow.camera.near = 0.1;
-light.shadow.camera.far = 50;
+
+// Tamaño del shadow map – CALIDAD ALTA
+light.shadow.mapSize.width = 4096;
+light.shadow.mapSize.height = 4096;
+
+// Cámara de sombras – RECORTADA Y OPTIMIZADA
+const cam = light.shadow.camera;
+cam.near = 0.1;
+cam.far = 20;
+cam.left = -3;
+cam.right = 3;
+cam.top = 3;
+cam.bottom = -3;
+
+// Suavizar
+light.shadow.bias = -0.0001;
+light.shadow.normalBias = 0.02;
+
 scene.add(light);
+
+// Ground receptor invisible
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(20, 20),
+  new THREE.ShadowMaterial({ opacity: 0.25 })
+);
+ground.rotation.x = -Math.PI / 2;
+ground.position.y = -0.01;
+ground.receiveShadow = true;
+scene.add(ground);
 
 
 /*********************************************
