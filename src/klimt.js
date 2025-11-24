@@ -46,15 +46,7 @@ light.shadow.normalBias = 0.02;
 
 scene.add(light);
 
-// Ground receptor invisible
-const ground = new THREE.Mesh(
-  new THREE.PlaneGeometry(20, 20),
-  new THREE.ShadowMaterial({ opacity: 0.25 })
-);
-ground.rotation.x = -Math.PI / 2;
-ground.position.y = -0.01;
-ground.receiveShadow = true;
-scene.add(ground);
+
 
 
 /*********************************************
