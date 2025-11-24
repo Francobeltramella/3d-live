@@ -309,3 +309,39 @@ window.addEventListener("resize", () => {
 
 
 
+
+const audio = new Audio("https://3dlive.netlify.app/videos/audio-bg.mp3");
+audio.loop = true;
+audio.preload = "auto";
+audio.volume = 0.6;
+
+// ICONOS
+const ICON_PLAY = "https://cdn.prod.website-files.com/68f7d96bca9eac99488aefec/691b3d566dab3e9059d132ff_Volume%20up%20(1).svg"; // volumen ON
+const ICON_PAUSE = "https://cdn.prod.website-files.com/68f7d96bca9eac99488aefec/691ca97f95ad272d8d52fe9f_Volume%20off%201.svg"; // volumen OFF
+
+
+// Botón de play/pause
+const btn = document.querySelector("[audio-btn]");
+const icon = document.querySelector("[audio-icon]");
+
+
+let isPlaying = false;
+
+btn.addEventListener("click", async () => {
+  if (!isPlaying) {
+    try {
+      await audio.play();
+      isPlaying = true;
+      icon.src = ICON_PAUSE;
+
+      btn.classList.add("active");
+    } catch(e){}
+  } else {
+    audio.pause();
+    isPlaying = false;
+    icon.src = ICON_PLAY;
+
+    btn.classList.remove("active");
+  }
+});
+
