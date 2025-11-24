@@ -48,23 +48,11 @@ scene.add(light);
 
 
 
-// 🔥 Spotlight que será tu puntero
-const cursorLight = new THREE.SpotLight(0xffffff, 2, 10, Math.PI / 8, 0.25, 1);
-cursorLight.position.set(0, 0, 2);
-cursorLight.target.position.set(0, 0, 0);
-scene.add(cursorLight);
-scene.add(cursorLight.target);
+const mouseLight = new THREE.PointLight(0xffffff, 1.4, 6);
+mouseLight.castShadow = false;   // si querés sombras -> true
+scene.add(mouseLight);
 
 
-const cursorGlow = new THREE.Mesh(
-  new THREE.SphereGeometry(0.07, 16, 16),
-  new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    transparent: true,
-    opacity: 0.35
-  })
-);
-cursorLight.add(cursorGlow); // glow pegado a la luz
 
 
 
@@ -73,16 +61,14 @@ const mouse = new THREE.Vector2();
 
 document.addEventListener("mousemove", (e) => {
   mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
 
-  // proyectar a 1 unidad de la cámara
+  // punto en el espacio delante de la cámara
   const pos = raycaster.ray.at(1.2, new THREE.Vector3());
 
-  // mover la luz
-  cursorLight.position.copy(pos);
-  cursorLight.target.position.copy(pos);
+  mouseLight.position.lerp(pos, 0.2);
 });
 
 
