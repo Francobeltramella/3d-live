@@ -48,7 +48,7 @@ scene.add(light);
 
 
 
-const mouseLight = new THREE.PointLight(0xffffff, 1.4, 6);
+const mouseLight = new THREE.PointLight(0xffffff, 1.4, 3);
 mouseLight.castShadow = false;   // si querés sombras -> true
 scene.add(mouseLight);
 
@@ -311,3 +311,20 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
   renderer.setSize(container.clientWidth, container.clientHeight);
 });
+
+
+
+if (sessionStorage.getItem("threeLoaded")) {
+  // Ya cargó → saltar el loader
+  document.querySelector(".loading-wrapper").style.display = "none";
+  document.body.style.overflow = "auto";
+
+  // Y activar directamente la intro del 3D
+  window.dispatchEvent(new Event("three-start-intro"));
+} else {
+  // Primera vez → guardar estado
+  sessionStorage.setItem("threeLoaded", "true");
+
+  // Acá corre tu loader normal
+  startLoaderAnimation();
+}
