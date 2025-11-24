@@ -222,6 +222,20 @@ function animate() {
   renderer.render(scene, camera);
 }
 
+function adjustCameraForMobile() {
+  if (!camera) return;
+
+  if (window.innerWidth < 768) {
+    camera.position.set(-2.3, 2.3, 2.8);  // ⬅️ un poco más lejos
+  } else {
+    camera.position.set(-2, 2, 2);        // desktop original
+  }
+
+  camera.updateProjectionMatrix();
+}
+
+window.addEventListener('resize', adjustCameraForMobile);
+
 
 /*********************************************
  * RESIZE
