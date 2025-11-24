@@ -125,6 +125,19 @@ loader.load(
       }
     });
 
+
+    gltf.scene.traverse(obj => {
+      if (obj.isMesh) {
+        if (!(obj.material instanceof THREE.MeshStandardMaterial)) {
+          obj.material = new THREE.MeshStandardMaterial({
+            color: obj.material.color,
+            roughness: 0.7,
+            metalness: 0
+          });
+        }
+      }
+    });
+    
     // Cámara del GLTF
     camera = gltf.cameras.find(c => c.name === "c") || gltf.cameras[0];
     camera.aspect = container.clientWidth / container.clientHeight;
